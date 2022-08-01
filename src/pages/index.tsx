@@ -64,7 +64,11 @@ export default function Home({ data }) {
       e.preventDefault();      
       const { currentTarget = {} } = e;
       const fields = Array.from(currentTarget?.elements);
+      // eslint-disable-next-line
+      // @ts-ignore
       const fieldQuery = fields.find(field => field.name === 'query');
+      // eslint-disable-next-line
+      // @ts-ignore
       const value = fieldQuery.value || '';
       const endPoint = `https://rickandmortyapi.com/api/character/?name=${value}`
       setPage({
