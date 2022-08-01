@@ -6,3 +6,11 @@ html,
 body {
   @apply p-0 m-0 font-sans;
 }
+
+input {
+  @apply border border-gray-300 px-2 py-1;
+}
+
+input:focus {
+  @apply border-gray-500 outline-none;
+}
