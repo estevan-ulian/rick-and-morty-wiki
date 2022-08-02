@@ -2,21 +2,21 @@ import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { AiFillCloseCircle, AiFillHeart, AiFillMinusCircle, AiOutlineReload, AiOutlineSearch } from 'react-icons/ai'
+import { BsCircleFill, BsSearch } from 'react-icons/bs';
+import { CHARACTER_ENDPOINT } from "../data/constants";
+import { fetchAPI } from "../utils/fetch-api";
 
-const publicEndpoint = 'https://rickandmortyapi.com/api/character';
-
-export default function Home({ data }) {
-  const { info, results: defaultResults = [] } = data;
+export default function Home({ characters }) {
+  const { info, results: defaultResults = [] } = characters;
   const [results, setResults] = useState(defaultResults);
   const [page, setPage] = useState({
     ...info,
-    current: publicEndpoint
+    current: CHARACTER_ENDPOINT
   });
   const { current } = page;
 
   useEffect(() => {
-    if ( current === publicEndpoint ) return;
+    if ( current === CHARACTER_ENDPOINT ) return;
 
     async function request() {
       const res = await fetch(current);
@@ -79,7 +79,7 @@ export default function Home({ data }) {
   return (
     <>
     <Head>
-    <title>Rick and Mory - Wiki Brasil</title>
+      <title>Rick and Mory - Wiki Brasil</title>
     </Head>
     <div className="py-4 flex justify-center bg-slate-500">
       <h1 className="text-white text-2xl">Rick and Morty - Wiki Brasil</h1>
@@ -87,13 +87,13 @@ export default function Home({ data }) {
     <div className="h-28 flex justify-center items-center px-4">
       <form onSubmit={handleOnSubmitSearch} className="flex gap-2 w-full justify-center">
         <input type="search" placeholder="Pesquisar personagem..." name="query" className="w-full sm:w-2/5" />
-        <button className="w-8 flex justify-center items-center hover:bg-gray-200"><AiOutlineSearch className="w-5 h-5" /></button>
+        <button className="w-8 flex justify-center items-center hover:bg-gray-200"><BsSearch className="w-5 h-5" /></button>
       </form>
     </div>
 
       <div className="flex flex-wrap gap-4 justify-center w-full mx-auto">        
         {
-          results.map(item => {
+          results.map((item, index) => {
             return (
               <div key={item.id} className="border border-slate-200 transition-all duration-300 hover:scale-105">
                 <Link href={`/character/${item.id}`}>
@@ -102,8 +102,8 @@ export default function Home({ data }) {
                       <Image src={item.image} width={300} height={300} alt={item.name} />
                       <div className="p-2 flex flex-col gap-2">                      
                         <div className="flex justify-between items-center flex-wrap">
-                          <h3 className="font-bold">{item.name}</h3>
-                          <span>{item.status === 'Alive' ? <AiFillHeart className="fill-green-500" /> : <AiFillCloseCircle className="fill-red-500" />}</span>
+                          <h2 className="text-slate-800 font-bold text-base sm:text-lg"><span className="text-slate-500 font-light">#{index + 1 } </span>{item.name}</h2>
+                          <span>{item.status === 'Alive' ? <BsCircleFill className="fill-green-500" /> : <BsCircleFill className="fill-red-500" />}</span>
                         </div>
                         <div className="flex justify-between flex-wrap">
                           <span>Espécie: {item.species === 'unknown' ? 'Desconhecida' : item.species}</span>
@@ -126,12 +126,11 @@ export default function Home({ data }) {
 }
 
 export async function getStaticProps() {
-  const res = await fetch(publicEndpoint);
-  const data = await res.json();  
+  const characters = await fetchAPI(CHARACTER_ENDPOINT);
   
   return {
     props: {
-      data
+      characters
     },
     revalidate: 10,
   };
