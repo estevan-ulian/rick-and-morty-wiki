@@ -11,23 +11,23 @@ export default function Character({ character, episodes }) {
     <>
       <header className="w-full bg-slate-500">
         <div className="py-4 flex justify-between items-center max-w-screen-xl px-3">
-          <Link href='/'><a className="text-white flex gap-2 items-center border border-slate-200 py-1 px-3 transition-all duration-300 hover:bg-slate-700 hover:border-slate-700"><BiArrowBack /> Voltar</a></Link>             
+          <Link href='/'><a className="text-white flex gap-2 items-center border border-slate-200 py-1 px-3 transition-all duration-300 hover:bg-slate-700 hover:border-slate-700"><BiArrowBack /> Home</a></Link>             
           <h1 className="text-white text-lg sm:text-2xl">Rick and Morty - Wiki Brasil</h1>
           <div className="hidden sm:block"></div>
         </div>
       </header>
 
       <section className="w-full my-10">
-        <div className="flex flex-col sm:flex-row gap-4 max-w-screen-xl mx-2 justify-center">        
-          <div className="flex">
+        <div className="flex flex-col sm:flex-row gap-4 max-w-screen-xl mx-2 justify-center items-center">        
+          <div className="flex justify-center sm:justify-start">
             <Image src={character.image} width={300} height={300} alt={character.name} />
           </div>
-          <div className="flex flex-col items-start gap-2">
-            <div className="flex items-center gap-1">
+          <div className="w-full sm:w-auto flex flex-col items-center sm:items-start gap-2">
+            <div className="flex items-center gap-2">
               <span className="">{character.status === 'Alive' ? <BsCircleFill className="fill-green-500" /> : <BsCircleFill className="fill-red-500" />}</span>
-              <span className="">{character.species}</span>
+              <span className="capitalize">{character.species}</span>
             </div>
-            <div className="flex flex-col gap-2 mt-2">
+            <div className="flex flex-col items-center sm:items-start gap-2 mt-2">
               <h1 className="text-4xl sm:text-6xl font-bold text-slate-800">{character.name}</h1> 
               <span className="">Gênero: {character.gender}</span>
               <span className="text-lg">Visto pela última vez em: <Link href={`/location/${character.id}`}><a className="font-bold text-slate-800">{character.origin.name === 'unknown' ? 'local desconhecido' : character.origin.name}</a></Link></span>
@@ -39,7 +39,7 @@ export default function Character({ character, episodes }) {
       <section className="mb-8">
         <div className="flex flex-col gap-2 max-w-screen-xl mx-2 justify-center">
         <h2 className="text-3xl font-bold text-slate-800 text-center">Episódios</h2>
-        <span className="text-center mb-4">{character.name} está presente nos seguintes episódios:</span>
+        <span className="text-center mb-4">{character.name} está presente {episodes.length > 1 ? 'nos seguintes episódios' : 'no seguinte episódio'}:</span>
         <div className="flex flex-wrap gap-2 justify-center">
           {episodes?.map(episode => {
             return (
@@ -66,7 +66,7 @@ export async function getStaticPaths() {
   
   return {
     paths, 
-    fallback: false
+    fallback: "blocking"
   }
 }
 

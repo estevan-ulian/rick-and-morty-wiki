@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { BsCircleFill, BsSearch } from 'react-icons/bs';
+import CardCharacter from "../components/CardCharacter";
 import { CHARACTER_ENDPOINT } from "../data/constants";
 import { fetchAPI } from "../utils/fetch-api";
 
@@ -91,32 +92,8 @@ export default function Home({ characters }) {
       </form>
     </div>
 
-      <div className="flex flex-wrap gap-4 justify-center w-full mx-auto">        
-        {
-          results.map((item, index) => {
-            return (
-              <div key={item.id} className="border border-slate-200 transition-all duration-300 hover:scale-105">
-                <Link href={`/character/${item.id}`}>
-                  <a>
-                    <article className={`w-full sm:w-72`}>
-                      <Image src={item.image} width={300} height={300} alt={item.name} />
-                      <div className="p-2 flex flex-col gap-2">                      
-                        <div className="flex justify-between items-center flex-wrap">
-                          <h2 className="text-slate-800 font-bold text-base sm:text-lg"><span className="text-slate-500 font-light">#{index + 1 } </span>{item.name}</h2>
-                          <span>{item.status === 'Alive' ? <BsCircleFill className="fill-green-500" /> : <BsCircleFill className="fill-red-500" />}</span>
-                        </div>
-                        <div className="flex justify-between flex-wrap">
-                          <span>Espécie: {item.species === 'unknown' ? 'Desconhecida' : item.species}</span>
-                          <span>Gênero: {item.gender === 'unknown' ? 'Desconhecido' : item.gender}</span>
-                        </div>
-                      </div>
-                    </article>
-                  </a>
-                </Link>
-              </div>
-            )
-          })
-        }
+      <div className="flex flex-wrap gap-4 justify-center w-full mx-auto px-2">        
+        <CardCharacter results={results} />
       </div>
       <div className="flex items-center justify-center py-4 mt-4">
         <button onClick={() => handleLoadMore()} className="flex items-center justify-center gap-2 border px-4 py-2 border-slate-300 transition-all duration-300 hover:scale-105">+ Carregar mais personagens</button>
