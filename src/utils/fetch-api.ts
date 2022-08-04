@@ -5,5 +5,5 @@ export async function fetchAPI(endpoint) {
         return data;
     } catch (err) {
         throw new Error('Erro ao consumir API');
-    }    
+    }
 }

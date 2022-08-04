@@ -24,7 +24,7 @@ export function handleStatus(statusCharacter) {
   const status = statusCharacter.toLowerCase();
   if(status === 'alive') return 'vivo';
   if(status === 'dead') return 'morto';
-  if(status === 'unknown') return 'unknown';
+  if(status === 'unknown') return 'paradeiro desconhecido';
 }
 
 export function handleDimension(dimensions) {
@@ -98,4 +98,18 @@ export function handleType(types) {
   if(type === 'artificially generated world') return 'mundo gerado artificialmente';
   if(type === 'dwarf planet (celestial dwarf)') return 'planeta anão (anão celestial)';
   if(type) return type;
+}
+
+export function handleOrigin(origins) {
+  const origin = origins.toLowerCase();
+  if(origin === '') return 'desconhecida';
+  if(origin === 'unknown') return 'desconhecida';
+  if(origin) return origin;
+}
+
+export function handleLocation(locations) {
+  const location = locations.toLowerCase();
+  if(location === '') return 'desconhecido';
+  if(location === 'unknown') return 'desconhecido';
+  if(location) return location;
 }

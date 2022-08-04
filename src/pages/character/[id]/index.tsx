@@ -1,19 +1,20 @@
 import Image from "next/image";
 import Link from "next/link";
 import { BsCircleFill } from "react-icons/bs";
-import { CHARACTER_ENDPOINT, LOCATION_ENDPOINT, SITE_TITLE } from "../../../data/constants";
+import { CHARACTER_ENDPOINT, fallbackImage, LOCATION_ENDPOINT, SITE_TITLE } from "../../../data/constants";
 import { fetcherArrayUrls } from "../../../utils/fetcher-array-urls";
 import { fetchAPI } from "../../../utils/fetch-api";
 import Navbar from "../../../components/Navbar";
 import Head from "next/head";
 import Footer from "../../../components/Footer";
-import { handleGender, handleSpecies, handleStatus } from "../../../utils/handle-info-strings";
+import { handleGender, handleLocation, handleOrigin, handleSpecies, handleStatus } from "../../../utils/handle-info-strings";
 import Container from "../../../components/Container";
 import Section from "../../../components/Section";
 
-export default function Character({ character, episodes, location }) {
-  console.log(episodes)
-  const metaTitle = `${character.name}, ${handleSpecies(character.species)} - ${SITE_TITLE}`
+export default function Character({ character, episodes }) {
+  const metaTitle = `${character.name}, ${handleSpecies(character.species)} - ${SITE_TITLE}`;
+  const img = !character.image ? fallbackImage : character.image;
+
   return (
     <>
       <Head>
@@ -23,23 +24,35 @@ export default function Character({ character, episodes, location }) {
 
       <Section>
         <Container>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">        
+          <div className="w-full flex flex-col sm:flex-row gap-4 justify-center items-center">        
             <div className="flex justify-center sm:justify-start">
-              <Image src={character.image} width={300} height={300} alt={character.name} />
+              <Image src={img} width={300} height={300} alt={character.name} />
             </div>
             <div className="w-full sm:w-auto flex flex-col items-center sm:items-start gap-2">
               <div className="flex items-center gap-1">
-                <span className="capitalize flex items-center gap-2">{character.status === 'Alive' ? <BsCircleFill className="text-green-500 animate-pulse" /> : <BsCircleFill className="text-red-500 animate-pulse"  /> }{handleStatus(character.status)}</span>
+                <span className="capitalize flex items-center gap-2">{character.status === 'Alive' ? <BsCircleFill className="text-green-500 animate-pulse" /> : <BsCircleFill className="text-red-500 animate-pulse"  />}{handleStatus(character.status)}</span>
               </div>
               <div className="flex flex-col items-center sm:items-start gap-4 mt-2">
                 <h1 className="text-4xl sm:text-6xl font-bold text-slate-800">{character.name}</h1> 
                 <div className="flex gap-2">
-                  <span className="text-lg">Gênero: {handleGender(character.gender)}</span>
+                  <span className="text-lg capitalize"><strong>Gênero:</strong> {handleGender(character.gender)}</span>
                   <span>-</span>
-                  <span className="text-lg">Espécie: {handleSpecies(character.species)}</span>
+                  <span className="text-lg capitalize"><strong>Espécie:</strong> {handleSpecies(character.species)}</span>
                 </div>
-                <span className="text-lg">Primeira aparição em: <Link href={`/episode/${episodes[0].id}`}><a className="font-bold transition-all duration-300 text-slate-500 hover:text-slate-800">{episodes[0].name}</a></Link></span>
-                <span className="text-lg">Último local visto: <Link href={`/location/${location.id}`}><a className="font-bold transition-all duration-300 text-slate-500 hover:text-slate-800">{location.name === 'unknown' ? 'Local desconhecido' : location.name}</a></Link></span>
+                <span className="text-lg">
+                <strong>Primeira aparição em:</strong>
+                  <Link href={`/episode/${episodes[0].id}`}>
+                    <a className="font-medium transition-all duration-300 text-slate-500 hover:text-slate-800"> {episodes[0].episode} - {episodes[0].name}</a>
+                  </Link>
+                </span>
+                <span className="text-slate-800 text-lg capitalize">
+                 <strong>Origem:</strong>                   
+                    <span> {handleOrigin(character.origin.name)}</span>
+                </span>
+                <span className="text-slate-800 text-lg capitalize">
+                <strong>Último local visto:</strong>
+                    <span> {handleLocation(character.location.name)}</span>                  
+                </span>
               </div>          
             </div>
           </div>      
@@ -48,10 +61,10 @@ export default function Character({ character, episodes, location }) {
       <hr />
       <Section>
         <Container>
-          <div className="flex flex-col gap-1">
+          <div className="w-full flex flex-col gap-1">
             <h2 className="text-3xl font-bold text-slate-800 text-center">Episódios</h2>
             <span className="text-center my-2 text-slate-800"><strong>{character.name}</strong> aparece em {episodes.length} {episodes.length > 1 ? 'episódios' : 'episódio'}.</span>
-            <div className="flex flex-wrap gap-2 justify-center mt-2">
+            <div className="flex flex-wrap gap-2 justify-center mt-2 w-full">
               {episodes?.map(episode => {
                 return (
                   <Link href={`/episode/${episode.id}`} key={episode.id}>
@@ -73,7 +86,7 @@ export default function Character({ character, episodes, location }) {
 export async function getStaticPaths() {
   const dataCharacter = await fetchAPI(CHARACTER_ENDPOINT)
 
-  const paths = dataCharacter.results.map(data => ({
+  const paths = dataCharacter?.results?.map(data => ({
     params: { id: data.id.toString() }
   }));
   
@@ -86,10 +99,9 @@ export async function getStaticPaths() {
 export async function getStaticProps(context) {  
   const id = context.params.id;  
   const character = await fetchAPI(`${CHARACTER_ENDPOINT}/${id}`);  
-  const location = await fetchAPI(character?.location?.url);
-  const episodes = await fetcherArrayUrls(character?.episode);
+  const episodes = await fetcherArrayUrls(character.episode);
 
   return {
-    props: { character, episodes, location },
+    props: { character, episodes },
   }
 }

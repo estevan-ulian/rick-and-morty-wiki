@@ -1,15 +1,21 @@
 import Image from "next/image"
 import Link from "next/link"
+import { useEffect, useState } from "react";
 import { BsCircleFill } from "react-icons/bs"
 import { handleGender, handleSpecies } from "../utils/handle-info-strings"
 
 export default function CardCharacter({ results }) {
+    const [mount, setMount] = useState(false);
+
+    useEffect(() => {
+      setMount(true)
+    }, [results])
+
     if(!results) return <div>Nada encontrado.</div>
 
     return (
         <>
-        {
-          results.map((item, index) => {       
+        { mount && results.map((item, index) => {       
             return (
               <div key={item.id} className="max-w-fit mx-auto flex justify-center border border-slate-200 transition-all duration-300 hover:scale-105">
                 <Link href={`/character/${item.id}`}>
