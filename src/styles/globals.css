@@ -4,11 +4,11 @@
 
 html,
 body {
-  @apply p-0 m-0 font-sans overflow-x-hidden;
+  @apply p-0 m-0 font-sans;
 }
 
 body {
-  @apply mb-16
+  @apply min-h-screen pb-10 overflow-x-hidden flex flex-col relative;
 }
 
 input {

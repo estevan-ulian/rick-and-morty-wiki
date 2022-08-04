@@ -67,11 +67,11 @@ export default function Locations({ locations }) {
                 <Container>
                     <div className="flex flex-col">
                         <Heading text="center">Locais</Heading>
-                        <div className="max-w-screen-xl flex justify-center flex-wrap gap-4 mx-auto mt-10">
+                        <div className="max-w-screen-xl flex justify-center flex-wrap gap-4 mx-auto my-10">
                             <CardLocation results={results} />
                         </div>
 
-                        <div className="load-more flex items-center justify-center py-4 my-4">
+                        <div className="load-more flex items-center justify-center py-4">
                             <button onClick={() => handleLoadMore()} className="flex items-center justify-center gap-2 border px-4 py-2 border-slate-300 transition-all duration-300 hover:scale-105">+ Carregar mais locais</button>
                         </div>
                     </div>                    

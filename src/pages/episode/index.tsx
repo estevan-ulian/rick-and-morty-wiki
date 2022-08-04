@@ -17,7 +17,6 @@ export default function Episodes({ episodes }) {
         current: EPISODE_ENDPOINT
       });
     const { current } = page;
-    console.log(results)
 
     useEffect(() => {
         if ( current === EPISODE_ENDPOINT ) return;        
@@ -68,14 +67,12 @@ export default function Episodes({ episodes }) {
                 <Container>
                     <div className="flex flex-col">
                         <Heading text="center">Episódios</Heading>
-                        <div className="flex flex-wrap gap-4 justify-center w-full mx-auto mt-10 px-2">
-                            
-                            <CardEpisode results={results} />
-                        
-                            <span className="load-more flex items-center justify-center py-4">
-                                <button onClick={() => handleLoadMore()} className="flex items-center justify-center gap-2 border px-4 py-2 border-slate-300 transition-all duration-300 hover:scale-105">+ Carregar mais episódios</button>
-                            </span>
+                        <div className="flex flex-wrap gap-4 justify-center w-full mx-auto my-10 px-2">                            
+                            <CardEpisode results={results} />                        
                         </div>
+                        <span className="load-more flex items-center justify-center py-4">
+                            <button onClick={() => handleLoadMore()} className="flex items-center justify-center gap-2 border px-4 py-2 border-slate-300 transition-all duration-300 hover:scale-105">+ Carregar mais episódios</button>
+                        </span>
                     </div>
                 </Container>
             </Section>
