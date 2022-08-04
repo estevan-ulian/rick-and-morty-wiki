@@ -2,8 +2,11 @@ import Head from "next/head";
 import { useEffect, useState } from "react";
 import { BsSearch } from 'react-icons/bs';
 import CardCharacter from "../components/CardCharacter";
+import Container from "../components/Container";
 import Footer from "../components/Footer";
+import Heading from "../components/Heading";
 import Navbar from "../components/Navbar";
+import Section from "../components/Section";
 import { CHARACTER_ENDPOINT } from "../data/constants";
 import { fetchAPI } from "../utils/fetch-api";
 
@@ -82,26 +85,30 @@ export default function Home({ characters }) {
 
   return (
     <>
-    <Head>
-      <title>{metaTitle}</title>
-    </Head>
-    <Navbar />
-    <div className="flex items-center justify-center h-28">
-      <h1 className="text-5xl font-bold text-slate-800">Rick {`&`} Morty - Wiki Brasil</h1>
-    </div>
-    <div className="h-28 flex justify-center items-center px-4">
-      <form onSubmit={handleOnSubmitSearch} className="flex gap-2 w-full justify-center">
-        <input type="search" placeholder="Pesquisar personagem..." name="query" className="w-full sm:w-2/5" />
-        <button className="w-8 flex justify-center items-center hover:bg-gray-200"><BsSearch className="w-5 h-5" /></button>
-      </form>
-    </div>
+      <Head>
+        <title>{metaTitle}</title>
+      </Head>
+      <Navbar />
+      <Section>
+        <Container>
+          <div className="flex flex-col">
+            <Heading text={`center`}>{`Rick & Morty - Wiki Brasil`}</Heading>
+            <div className="h-28 flex justify-center items-center px-4">
+              <form onSubmit={handleOnSubmitSearch} className="flex gap-2 w-full justify-center">
+                <input type="search" placeholder="Pesquisar personagem..." name="query" className="w-full sm:w-2/5" />
+                <button className="w-8 flex justify-center items-center hover:bg-gray-200"><BsSearch className="w-5 h-5" /></button>
+              </form>
+            </div>
 
-      <div className="flex flex-wrap gap-4 justify-center w-full mx-auto px-2">        
-        <CardCharacter results={results} />
-      </div>
-      <div className="flex items-center justify-center py-4 mt-4">
-        <button onClick={() => handleLoadMore()} className="flex items-center justify-center gap-2 border px-4 py-2 border-slate-300 transition-all duration-300 hover:scale-105">+ Carregar mais personagens</button>
-      </div>
+            <div className="flex flex-wrap gap-4 justify-center w-full mx-auto px-2">        
+              <CardCharacter results={results} />
+            </div>
+            <div className="flex items-center justify-center py-4 mt-4">
+              <button onClick={() => handleLoadMore()} className="flex items-center justify-center gap-2 border px-4 py-2 border-slate-300 transition-all duration-300 hover:scale-105">+ Carregar mais personagens</button>
+            </div>
+          </div>
+        </Container>
+      </Section>    
       <Footer />
     </>
   )

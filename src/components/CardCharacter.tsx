@@ -17,7 +17,7 @@ export default function CardCharacter({ results }) {
         <>
         { mount && results.map((item, index) => {       
             return (
-              <div key={item.id} className="max-w-fit mx-auto flex justify-center border border-slate-200 transition-all duration-300 hover:scale-105">
+              <div key={item.id} className="max-w-[300px] mx-auto flex justify-center border border-slate-200 transition-all duration-300 hover:scale-105">
                 <Link href={`/character/${item.id}`}>
                   <a>
                     <article className={`w-full sm:w-72`}>

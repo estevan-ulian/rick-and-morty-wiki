@@ -10,6 +10,7 @@ import Footer from "../../../components/Footer";
 import { handleGender, handleLocation, handleOrigin, handleSpecies, handleStatus } from "../../../utils/handle-info-strings";
 import Container from "../../../components/Container";
 import Section from "../../../components/Section";
+import Heading from "../../../components/Heading";
 
 export default function Character({ character, episodes }) {
   const metaTitle = `${character.name}, ${handleSpecies(character.species)} - ${SITE_TITLE}`;
@@ -24,7 +25,7 @@ export default function Character({ character, episodes }) {
 
       <Section>
         <Container>
-          <div className="w-full flex flex-col sm:flex-row gap-4 justify-center items-center">        
+          <div className="w-full flex flex-col sm:flex-row gap-4 justify-center items-center mt-4">        
             <div className="flex justify-center sm:justify-start">
               <Image src={img} width={300} height={300} alt={character.name} />
             </div>
@@ -33,7 +34,7 @@ export default function Character({ character, episodes }) {
                 <span className="capitalize flex items-center gap-2">{character.status === 'Alive' ? <BsCircleFill className="text-green-500 animate-pulse" /> : <BsCircleFill className="text-red-500 animate-pulse"  />}{handleStatus(character.status)}</span>
               </div>
               <div className="flex flex-col items-center sm:items-start gap-4 mt-2">
-                <h1 className="text-4xl sm:text-6xl font-bold text-slate-800">{character.name}</h1> 
+                <Heading text="left">{character.name}</Heading> 
                 <div className="flex gap-2">
                   <span className="text-lg capitalize"><strong>Gênero:</strong> {handleGender(character.gender)}</span>
                   <span>-</span>

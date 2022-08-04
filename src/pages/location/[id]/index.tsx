@@ -29,7 +29,7 @@ export default function LocationByID({ location, residents }) {
             <hr />
             <section className={`my-10 w-full ${residents.length < 1 && 'hidden'}`}>                
                 <div className="w-full flex flex-col justify-center items-center mb-10">
-                    <h2 className="text-3xl font-bold text-slate-800 text-center">{residents.length} personagens encontrados em <span className="font-light">{location.name}</span></h2>
+                    <h2 className="text-3xl font-medium text-slate-800 text-center">{residents.length} {residents.length > 1 ? 'personagens vistos em' : 'personagem visto em'}  <span className="font-light">{location.name}</span></h2>
                 </div>  
                 <div className={`flex flex-wrap gap-4 justify-center w-full mx-auto px-2`}>
                     <CardCharacter results={residents} />
