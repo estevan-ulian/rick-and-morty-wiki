@@ -1,58 +1,71 @@
 import Image from "next/image";
 import Link from "next/link";
-import { BiArrowBack } from 'react-icons/bi'
 import { BsCircleFill } from "react-icons/bs";
-import { CHARACTER_ENDPOINT, EPISODE_ENDPOINT, LOCATION_ENDPOINT } from "../../../data/constants";
+import { CHARACTER_ENDPOINT, LOCATION_ENDPOINT, SITE_TITLE } from "../../../data/constants";
 import { fetcherArrayUrls } from "../../../utils/fetcher-array-urls";
 import { fetchAPI } from "../../../utils/fetch-api";
+import Navbar from "../../../components/Navbar";
+import Head from "next/head";
+import Footer from "../../../components/Footer";
+import { handleGender, handleSpecies, handleStatus } from "../../../utils/handle-info-strings";
+import Container from "../../../components/Container";
+import Section from "../../../components/Section";
 
-export default function Character({ character, episodes }) {
+export default function Character({ character, episodes, location }) {
+  console.log(episodes)
+  const metaTitle = `${character.name}, ${handleSpecies(character.species)} - ${SITE_TITLE}`
   return (
     <>
-      <header className="w-full bg-slate-500">
-        <div className="py-4 flex justify-between items-center max-w-screen-xl px-3">
-          <Link href='/'><a className="text-white flex gap-2 items-center border border-slate-200 py-1 px-3 transition-all duration-300 hover:bg-slate-700 hover:border-slate-700"><BiArrowBack /> Home</a></Link>             
-          <h1 className="text-white text-lg sm:text-2xl">Rick and Morty - Wiki Brasil</h1>
-          <div className="hidden sm:block"></div>
-        </div>
-      </header>
+      <Head>
+        <title>{metaTitle}</title>
+      </Head>
+      <Navbar />
 
-      <section className="w-full my-10">
-        <div className="flex flex-col sm:flex-row gap-4 max-w-screen-xl mx-2 justify-center items-center">        
-          <div className="flex justify-center sm:justify-start">
-            <Image src={character.image} width={300} height={300} alt={character.name} />
-          </div>
-          <div className="w-full sm:w-auto flex flex-col items-center sm:items-start gap-2">
-            <div className="flex items-center gap-2">
-              <span className="">{character.status === 'Alive' ? <BsCircleFill className="fill-green-500" /> : <BsCircleFill className="fill-red-500" />}</span>
-              <span className="capitalize">{character.species}</span>
+      <Section>
+        <Container>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">        
+            <div className="flex justify-center sm:justify-start">
+              <Image src={character.image} width={300} height={300} alt={character.name} />
             </div>
-            <div className="flex flex-col items-center sm:items-start gap-2 mt-2">
-              <h1 className="text-4xl sm:text-6xl font-bold text-slate-800">{character.name}</h1> 
-              <span className="">Gênero: {character.gender}</span>
-              <span className="text-lg">Visto pela última vez em: <Link href={`/location/${character.id}`}><a className="font-bold text-slate-800">{character.origin.name === 'unknown' ? 'local desconhecido' : character.origin.name}</a></Link></span>
-            </div>          
+            <div className="w-full sm:w-auto flex flex-col items-center sm:items-start gap-2">
+              <div className="flex items-center gap-1">
+                <span className="capitalize flex items-center gap-2">{character.status === 'Alive' ? <BsCircleFill className="text-green-500 animate-pulse" /> : <BsCircleFill className="text-red-500 animate-pulse"  /> }{handleStatus(character.status)}</span>
+              </div>
+              <div className="flex flex-col items-center sm:items-start gap-4 mt-2">
+                <h1 className="text-4xl sm:text-6xl font-bold text-slate-800">{character.name}</h1> 
+                <div className="flex gap-2">
+                  <span className="text-lg">Gênero: {handleGender(character.gender)}</span>
+                  <span>-</span>
+                  <span className="text-lg">Espécie: {handleSpecies(character.species)}</span>
+                </div>
+                <span className="text-lg">Primeira aparição em: <Link href={`/episode/${episodes[0].id}`}><a className="font-bold transition-all duration-300 text-slate-500 hover:text-slate-800">{episodes[0].name}</a></Link></span>
+                <span className="text-lg">Último local visto: <Link href={`/location/${location.id}`}><a className="font-bold transition-all duration-300 text-slate-500 hover:text-slate-800">{location.name === 'unknown' ? 'Local desconhecido' : location.name}</a></Link></span>
+              </div>          
+            </div>
+          </div>      
+        </Container>  
+      </Section>
+      <hr />
+      <Section>
+        <Container>
+          <div className="flex flex-col gap-1">
+            <h2 className="text-3xl font-bold text-slate-800 text-center">Episódios</h2>
+            <span className="text-center my-2 text-slate-800"><strong>{character.name}</strong> aparece em {episodes.length} {episodes.length > 1 ? 'episódios' : 'episódio'}.</span>
+            <div className="flex flex-wrap gap-2 justify-center mt-2">
+              {episodes?.map(episode => {
+                return (
+                  <Link href={`/episode/${episode.id}`} key={episode.id}>
+                    <a className="flex justify-center items-center text-center border border-slate-300 px-2 py-1 transition-all duration-300 hover:bg-slate-500 hover:border-slate-500 hover:text-white">
+                    {episode.episode} - {episode.name}
+                    </a>
+                  </Link>
+                )
+              })}
+            </div>
           </div>
-        </div>        
-      </section>
-      <hr className="my-8" />
-      <section className="mb-8">
-        <div className="flex flex-col gap-2 max-w-screen-xl mx-2 justify-center">
-        <h2 className="text-3xl font-bold text-slate-800 text-center">Episódios</h2>
-        <span className="text-center mb-4">{character.name} está presente {episodes.length > 1 ? 'nos seguintes episódios' : 'no seguinte episódio'}:</span>
-        <div className="flex flex-wrap gap-2 justify-center">
-          {episodes?.map(episode => {
-            return (
-              <Link href={`/episode/${episode.id}`} key={episode.id}>
-                <a className="flex justify-center items-center text-center border border-slate-300 px-2 py-1 transition-all duration-300 hover:bg-slate-500 hover:border-slate-500 hover:text-white">
-                  {episode.name}
-                </a>
-              </Link>
-            )
-          })}
-        </div>
-        </div>
-      </section>
+        </Container>
+      </Section>
+      <Footer />
     </>
   )
 }
@@ -66,16 +79,17 @@ export async function getStaticPaths() {
   
   return {
     paths, 
-    fallback: "blocking"
+    fallback: "blocking",
   }
 }
 
 export async function getStaticProps(context) {  
   const id = context.params.id;  
   const character = await fetchAPI(`${CHARACTER_ENDPOINT}/${id}`);  
+  const location = await fetchAPI(character?.location?.url);
   const episodes = await fetcherArrayUrls(character?.episode);
 
   return {
-    props: { character, episodes }
+    props: { character, episodes, location },
   }
 }

@@ -1,9 +1,9 @@
 import Head from "next/head";
-import Image from "next/image";
-import Link from "next/link";
 import { useEffect, useState } from "react";
-import { BsCircleFill, BsSearch } from 'react-icons/bs';
+import { BsSearch } from 'react-icons/bs';
 import CardCharacter from "../components/CardCharacter";
+import Footer from "../components/Footer";
+import Navbar from "../components/Navbar";
 import { CHARACTER_ENDPOINT } from "../data/constants";
 import { fetchAPI } from "../utils/fetch-api";
 
@@ -18,6 +18,7 @@ export default function Home({ characters }) {
 
   useEffect(() => {
     if ( current === CHARACTER_ENDPOINT ) return;
+    if ( current === null ) return document.querySelector('.load-more').classList.add('hidden');
 
     async function request() {
       const res = await fetch(current);
@@ -61,29 +62,32 @@ export default function Home({ characters }) {
       const fieldQuery = fields.find(field => field.name === 'query');
       // eslint-disable-next-line
       // @ts-ignore
-      const value = fieldQuery.value || '';
+      const value = fieldQuery.value || '';      
       const endPoint = `https://rickandmortyapi.com/api/character/?name=${value}`
       if(value) {
         return setPage({
           current: endPoint
         });
       } else {
+        setPage({current})
         return (
           <div>
-            nao funcionou
+            Nenhum personagem encontrado. Tente outro nome.
           </div>
         )
       }      
     }
 
+    const metaTitle = `Rick & Morty - Wiki Brasil`
 
   return (
     <>
     <Head>
-      <title>Rick and Mory - Wiki Brasil</title>
+      <title>{metaTitle}</title>
     </Head>
-    <div className="py-4 flex justify-center bg-slate-500">
-      <h1 className="text-white text-2xl">Rick and Morty - Wiki Brasil</h1>
+    <Navbar />
+    <div className="flex items-center justify-center h-28">
+      <h1 className="text-5xl font-bold text-slate-800">Rick {`&`} Morty - Wiki Brasil</h1>
     </div>
     <div className="h-28 flex justify-center items-center px-4">
       <form onSubmit={handleOnSubmitSearch} className="flex gap-2 w-full justify-center">
@@ -98,6 +102,7 @@ export default function Home({ characters }) {
       <div className="flex items-center justify-center py-4 mt-4">
         <button onClick={() => handleLoadMore()} className="flex items-center justify-center gap-2 border px-4 py-2 border-slate-300 transition-all duration-300 hover:scale-105">+ Carregar mais personagens</button>
       </div>
+      <Footer />
     </>
   )
 }
@@ -109,6 +114,5 @@ export async function getStaticProps() {
     props: {
       characters
     },
-    revalidate: 10,
   };
 }
