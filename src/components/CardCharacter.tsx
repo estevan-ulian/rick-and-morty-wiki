@@ -11,7 +11,10 @@ export default function CardCharacter({ results }) {
       setMount(true)
     }, [results])
 
-    if(!results) return <div>Nada encontrado.</div>
+    if(!results) {
+    document.querySelector('.load-more').classList.add('hidden');   
+    return <div>Nenhum personagem encontrado. Tente outro nome.</div>
+    }
 
     return (
         <>

@@ -1,6 +1,7 @@
 import Head from "next/head";
 import CardCharacter from "../../../components/CardCharacter";
 import Container from "../../../components/Container";
+import Footer from "../../../components/Footer";
 import Heading from "../../../components/Heading";
 import Navbar from "../../../components/Navbar";
 import Section from "../../../components/Section";
@@ -24,14 +25,17 @@ export default function Episode({ episode, characters }) {
                 <div className="flex flex-col gap-4 w-full max-w-screen-xl mx-auto justify-center"> 
                     <Heading text="center">{title}</Heading>
                     <span className="mb-6 text-center">{handleDate(episode.air_date)}</span>                
-                    <h2 className="w-full text-center text-lg">Personagens presentes no episódio:</h2>
-
+                    <div className="w-full flex flex-col justify-center items-center mb-10">
+                        <h2 className="text-3xl font-medium text-slate-800 text-center">{characters.length} {characters.length > 1 ? 'personagens presentes em' : 'personagem presente em'}  <span className="font-light">{episode.name}</span></h2>
+                    </div>  
                     <div className="flex flex-wrap gap-4 justify-center w-full mx-auto mt-8 px-2">        
                         <CardCharacter results={characters} />
                     </div>
                 </div>
             </Container>            
         </Section>
+
+        <Footer />
         </>
     )
 }

@@ -22,8 +22,8 @@ export default function CardLocation({ results }) {
                             </a>
                         </Link>
                         <div className="flex flex-col">
-                            <span className={`capitalize ${data.type ? 'block' : 'hidden'}`}>Tipo: {handleType(data.type)}</span>
-                            <span className={`capitalize ${data.dimension ? 'block' : 'hidden'}`}>Dimensão: {handleDimension(data.dimension)}</span>
+                            <span className={`capitalize text-center ${data.type ? 'block' : 'hidden'}`}>Tipo: {handleType(data.type)}</span>
+                            <span className={`capitalize text-center ${data.dimension ? 'block' : 'hidden'}`}>Dimensão: {handleDimension(data.dimension)}</span>
                         </div>
                     </div>
                 );

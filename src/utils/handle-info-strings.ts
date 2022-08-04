@@ -30,27 +30,27 @@ export function handleStatus(statusCharacter) {
 export function handleDimension(dimensions) {
   const dimension = dimensions.toLowerCase();  
   if(dimension === 'unknown') return 'desconhecida';  
-  if(dimension === 'fantasy dimension') return 'dimensão da fantasia';  
-  if(dimension === 'conenberg dimension') return 'dimensão cronenberg';  
-  if(dimension === 'replacement dimension') return 'dimensão da substituição';  
+  if(dimension === 'fantasy dimension') return 'fantasia';  
+  if(dimension === 'conenberg dimension') return 'cronenberg';  
+  if(dimension === 'replacement dimension') return 'substituição';  
   if(dimension === 'unknown dimension') return 'desconhecida';  
-  if(dimension === 'giant telepathic spiders dimension') return 'dimensão das aranhas telepáticas gigantes';  
-  if(dimension === 'testicle monster dimension') return 'dimensão do monstro dos testículos';  
-  if(dimension === 'cromulon dimension') return 'dimensão do cromulon';  
-  if(dimension === "evil rick's target dimension") return 'dimensão alvo do Rick maligno';  
-  if(dimension === "eric stoltz mask dimension") return 'dimensão da máscara Eric Stoltz'; 
-  if(dimension === "post-apocalyptic dimension") return 'dimensão pós-apocalíptica';   
-  if(dimension === 'chair dimension') return 'dimensão da cadeira';
-  if(dimension === 'fascist dimension') return 'dimensão facista';
-  if(dimension === 'fascist shrimp dimension') return 'dimensão do camarão facista';
-  if(dimension === 'pizza dimension') return 'dimensão da pizza';
-  if(dimension === 'phone dimension') return 'dimensão do telefone';
-  if(dimension === 'wasp dimension') return 'dimensão da vespa';  
-  if(dimension === 'tusk dimension') return 'dimensão da bolota';
-  if(dimension === 'magic dimension') return 'dimensão mágica';
-  if(dimension === 'merged dimension') return 'dimensão fundida';
-  if(dimension === 'fascist teddy bear dimension') return 'dimensão do urso de pelúcia facista';
-  if(dimension.split('dimension')) return dimension.split('dimension').join('dimensão');
+  if(dimension === 'giant telepathic spiders dimension') return 'aranhas telepáticas gigantes';  
+  if(dimension === 'testicle monster dimension') return 'monstro dos testículos';  
+  if(dimension === 'cromulon dimension') return 'cromulon';  
+  if(dimension === "evil rick's target dimension") return 'alvo do Rick maligno';  
+  if(dimension === "eric stoltz mask dimension") return 'máscara Eric Stoltz'; 
+  if(dimension === "post-apocalyptic dimension") return 'pós-apocalíptica';   
+  if(dimension === 'chair dimension') return 'cadeira';
+  if(dimension === 'fascist dimension') return 'facista';
+  if(dimension === 'fascist shrimp dimension') return 'camarão facista';
+  if(dimension === 'pizza dimension') return 'pizza';
+  if(dimension === 'phone dimension') return 'telefone';
+  if(dimension === 'wasp dimension') return 'vespa';  
+  if(dimension === 'tusk dimension') return 'bolota';
+  if(dimension === 'magic dimension') return 'mágica';
+  if(dimension === 'merged dimension') return 'fundida';
+  if(dimension === 'fascist teddy bear dimension') return 'urso de pelúcia facista';
+  if(dimension.split('dimension')) return dimension.split('dimension').join('');
   if(dimension) return dimension;
   
 }
