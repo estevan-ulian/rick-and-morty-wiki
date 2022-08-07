@@ -24,7 +24,7 @@ export function handleStatus(statusCharacter) {
   const status = statusCharacter.toLowerCase();
   if(status === 'alive') return 'vivo';
   if(status === 'dead') return 'morto';
-  if(status === 'unknown') return 'paradeiro desconhecido';
+  if(status === 'unknown') return 'desconhecido';
 }
 
 export function handleDimension(dimensions) {
@@ -56,6 +56,7 @@ export function handleDimension(dimensions) {
 }
 
 export function handleType(types) {
+  if(types === null) return;
   const type = types.toLowerCase();
   if(type === 'planet') return 'planeta';
   if(type === 'game') return 'jogo';
