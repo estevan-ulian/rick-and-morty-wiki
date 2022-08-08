@@ -13,8 +13,7 @@ import { genderOptions, speciesOptions, statusOptions } from "../data/query";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 export default function Home({ characters }) {
-  const { data, isLoading } = useQuery(['character'], { initialData: characters });
-  const { info, results: defaultResults } = data;
+  const { info, results: defaultResults } = characters;
 
   const [results, setResults] = useState(defaultResults);
   const [page, setPage] = useState({ ...info, current: CHARACTER_ENDPOINT });
@@ -30,20 +29,15 @@ export default function Home({ characters }) {
   useEffect(() => {
     async function request() {
       const nextData = await fetchAPI(current);
-      setPage({
-        current,
-        ...nextData.info
-      });
+      setPage({ current, ...nextData.info });
 
-      setResults(
-        [...nextData.results]
-      );
+      setResults( [...nextData.results]);
     };
     request();
     }, [current]);
 
   function handlePrev() {
-    setPage({current: page?.prev});
+    setPage({ current: page?.prev });
     if(page.prev === null) return;
   }
   
@@ -68,19 +62,13 @@ export default function Home({ characters }) {
     e.preventDefault();   
     const queryAPI = await fetchAPI(`${CHARACTER_ENDPOINT}/?page=${current}&status=${status}&gender=${gender}&species=${species}`);
     setResults(queryAPI.results);
-    setPage({        
-      current,
-      ...queryAPI.info
-    })
+    setPage({ current, ...queryAPI.info });
     document.querySelector('.button-reset-query').classList.remove('hidden');
   }
 
   function handleReset() {
     setResults(defaultResults);
-    setPage({
-      current,
-      ...info
-    })
+    setPage({ current, ...info });
     document.querySelector('.button-reset-query').classList.add('hidden');
   }
 
@@ -92,7 +80,7 @@ export default function Home({ characters }) {
         ...theme.colors,
         primary: '#64748B',
         neutral0: '#f8f8f8',        
-        neutral20: '#CBD5E1', //borda do select        
+        neutral20: '#CBD5E1',      
       }
     }
   }
@@ -148,7 +136,7 @@ export default function Home({ characters }) {
                 <input type="reset" form="filterOptions" value='Limpar Pesquisa' className="w-full sm:w-36 h-10 self-center sm:self-end bg-red-400 hover:bg-red-500 text-white cursor-pointer button-reset-query hidden" onClick={() => handleReset()} />
             </form>
             <div className="flex flex-wrap gap-4 justify-center w-full mx-auto px-2 mt-10">
-              <CardCharacter results={results} isLoading={isLoading} />
+              <CardCharacter results={results} />
             </div>
             <div className="load-more flex items-center justify-center py-4 mt-4 gap-2">
               <button onClick={() => handlePrev()} 

@@ -1,28 +1,20 @@
 import Image from "next/image"
 import Link from "next/link"
 import { useEffect, useState } from "react";
-import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { BsCircleFill } from "react-icons/bs"
 import { fallbackImage } from "../data/constants";
 import { handleGender, handleSpecies } from "../utils/handle-info-strings";
 
 interface CardCharacterProps {
   results: any,
-  isLoading?: boolean,
 }
 
-export default function CardCharacter({ results, isLoading }: CardCharacterProps) {
+export default function CardCharacter({ results }: CardCharacterProps) {
     const [mount, setMount] = useState(false);
 
     useEffect(() => {
       setMount(true)
     }, [results])
-
-    if(isLoading) return (
-      <div className="animate-spin">
-        <AiOutlineLoading3Quarters style={{height : '32px', width: '32px',}} />
-      </div>
-    )
 
     if(!results) {
       return <div>Nenhum personagem encontrado.</div>

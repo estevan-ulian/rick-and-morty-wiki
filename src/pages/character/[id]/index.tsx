@@ -16,6 +16,9 @@ export default function Character({ character, episodes }) {
   const metaTitle = `${character.name}, ${handleSpecies(character.species)} - ${SITE_TITLE}`;
   const img = !character.image ? fallbackImage : character.image;
 
+  const characterStatus = character.status ? character.status : 'unknown';
+  const characterGender = character.gender ? character.gender : 'unknown';
+
   return (
     <>
       <Head>
@@ -27,16 +30,16 @@ export default function Character({ character, episodes }) {
         <Container>
           <div className="w-full flex flex-col sm:flex-row gap-4 justify-center items-center mt-4">        
             <div className="flex justify-center sm:justify-start">
-              <Image src={img} width={300} height={300} alt={character.name} />
+              <Image loader={() => img} src={img} width={300} height={300} alt={character.name} />
             </div>
             <div className="w-full sm:w-auto flex flex-col items-center sm:items-start gap-2">
               <div className="flex items-center gap-1">
-                <span className="capitalize flex items-center gap-2">{character.status === 'Alive' ? <BsCircleFill className="text-green-500 animate-pulse" /> : <BsCircleFill className="text-red-500 animate-pulse"  />}{handleStatus(character.status)}</span>
+                <span className="capitalize flex items-center gap-2">{characterStatus === 'Alive' ? <BsCircleFill className="text-green-500 animate-pulse" /> : <BsCircleFill className="text-red-500 animate-pulse"  />}{handleStatus(characterStatus)}</span>
               </div>
               <div className="flex flex-col items-center sm:items-start gap-4 mt-2">
                 <Heading text="left">{character.name}</Heading> 
                 <div className="flex gap-2">
-                  <span className="text-lg capitalize"><strong>Gênero:</strong> {handleGender(character.gender)}</span>
+                  <span className="text-lg capitalize"><strong>Gênero:</strong> {handleGender(characterGender)}</span>
                   <span>-</span>
                   <span className="text-lg capitalize"><strong>Espécie:</strong> {handleSpecies(character.species)}</span>
                 </div>

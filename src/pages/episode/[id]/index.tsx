@@ -1,6 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
 import Head from "next/head";
-import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import CardCharacter from "../../../components/CardCharacter";
 import Container from "../../../components/Container";
 import Footer from "../../../components/Footer";
@@ -13,17 +11,8 @@ import { fetcherArrayUrls } from "../../../utils/fetcher-array-urls";
 import { handleDate } from "../../../utils/handle-date";
 
 export default function Episode({ episode, characters }) {
-    const { data, isLoading } = useQuery(['episode, characters'], { initialData: {characters, episode} });
-
-    const metaTitle = `${episode.episode}, ${episode.name} - ${SITE_TITLE}`;
-    const title = `${episode.episode} - ${episode.name}`;
-
-    if(isLoading) return (
-        <div className="animate-spin">
-          <AiOutlineLoading3Quarters style={{height : '32px', width: '32px',}} />
-        </div>
-      );
-    
+    const metaTitle = `${episode.episode}, ${episode.name} - ${SITE_TITLE}`
+    const title = `${episode.episode} - ${episode.name}`
     return (
         <>
         <Head>
@@ -35,12 +24,12 @@ export default function Episode({ episode, characters }) {
             <Container>
                 <div className="flex flex-col gap-4 w-full max-w-screen-xl mx-auto justify-center"> 
                     <Heading text="center">{title}</Heading>
-                    <span className="mb-6 text-center">{handleDate(data.episode.air_date)}</span>                
+                    <span className="mb-6 text-center">{handleDate(episode.air_date)}</span>                
                     <div className="w-full flex flex-col justify-center items-center mb-10">
-                        <h2 className="text-3xl font-medium text-slate-800 text-center">{data.characters.length} {data.characters.length > 1 ? 'personagens presentes em' : 'personagem presente em'}  <span className="font-light">{episode.name}</span></h2>
+                        <h2 className="text-3xl font-medium text-slate-800 text-center">{characters.length} {characters.length > 1 ? 'personagens presentes em' : 'personagem presente em'}  <span className="font-light">{episode.name}</span></h2>
                     </div>  
                     <div className="flex flex-wrap gap-4 justify-center w-full mx-auto mt-8 px-2">        
-                        <CardCharacter results={data.characters} isLoading={isLoading} />
+                        <CardCharacter results={characters} />
                     </div>
                 </div>
             </Container>            
@@ -64,6 +53,7 @@ export async function getStaticPaths() {
 
 export async function getStaticProps(context) {
     const id = context.params.id;
+
     const episode = await fetchAPI(`${EPISODE_ENDPOINT}/${id}`);
     const characters = await fetcherArrayUrls(episode.characters)
     return {
