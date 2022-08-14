@@ -2,33 +2,46 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { handleDimension, handleType } from "../utils/handle-info-strings";
 
-export default function CardLocation({ results }) {
-    const [mount, setMount] = useState(false);
+type ResultData = {
+    id: number,
+    name: string,
+    dimension: string,
+    type: string,
+}
+
+interface CardLocationParams {
+    results: ResultData[]
+}
+
+export default function CardLocation({ results }: CardLocationParams) {
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        setMount(true)
-      }, [results])
+        setLoading(false)
+      }, [])
 
-    if(!results) return <div>Nada encontrado.</div>
+    if(!results.length) return <div>Nada encontrado.</div>;
 
     return(
         <>
-            {mount && results?.map( (data, index) => {
-                return (                    
-                    <div key={data.id} className="border border-slate-300 p-4 flex flex-col items-center w-full sm:w-auto">
-                        <Link  href={`/location/${data.id}`}>
-                            <a className="flex text-lg font-bold text-slate-800 hover:text-slate-600">
-                                <h1 className="w-full text-center"><span className="text-slate-400 font-normal">#{index + 1} </span> {data.name}</h1>
-                            </a>
-                        </Link>
-                        <div className="flex flex-col">
-                            <span className={`capitalize text-center ${data.type ? 'block' : 'hidden'}`}>Tipo: {handleType(data.type)}</span>
-                            <span className={`capitalize text-center ${data.dimension ? 'block' : 'hidden'}`}>Dimensão: {handleDimension(data.dimension)}</span>
+            {!loading &&
+                results?.map( (data, index) => {
+                    let key = data.id;
+                    return (                    
+                        <div key={key === data.id && index *1000} className="border border-slate-300 rounded-xl p-4 flex flex-col items-center w-full sm:w-auto">
+                            <Link  href={`/location/${data?.id}`}>
+                                <a className="flex text-lg font-bold text-slate-800 hover:text-slate-600">
+                                    <h1 className="w-full text-center"><span className="text-slate-400 font-normal">#{data?.id} </span> {data?.name}</h1>
+                                </a>
+                            </Link>
+                            <div className="flex flex-col">
+                                <span className={`capitalize text-center ${data?.type ? 'block' : 'hidden'}`}>Tipo: {handleType(data?.type)}</span>
+                                <span className={`capitalize text-center ${data?.dimension ? 'block' : 'hidden'}`}>Dimensão: {handleDimension(data?.dimension)}</span>
+                            </div>
                         </div>
-                    </div>
-                );
-            })
-            }
+                    );
+                })
+                }
         </>
     )
 }

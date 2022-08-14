@@ -4,6 +4,7 @@ export function handleGender(genders) {
     if(gender === 'female') return 'feminino';
     if(gender === 'genderless') return 'indefinido';
     if(gender === 'unknown') return 'desconhecido';
+    if(gender) return gender;
   }
 
 export function handleSpecies(species) {
@@ -55,7 +56,7 @@ export function handleDimension(dimensions) {
   
 }
 
-export function handleType(types) {
+export function handleType(types: string | null) {
   if(types === null) return;
   const type = types.toLowerCase();
   if(type === 'planet') return 'planeta';

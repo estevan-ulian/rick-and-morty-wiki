@@ -1,16 +1,32 @@
+import { GetStaticPropsContext } from "next";
 import Head from "next/head";
+import { CharacterResultParams } from "../..";
 import CardCharacter from "../../../components/CardCharacter";
 import Container from "../../../components/Container";
 import Footer from "../../../components/Footer";
 import Heading from "../../../components/Heading";
 import Navbar from "../../../components/Navbar";
 import Section from "../../../components/Section";
-import { EPISODE_ENDPOINT, SITE_TITLE } from "../../../data/constants"
-import { fetchAPI } from "../../../utils/fetch-api"
-import { fetcherArrayUrls } from "../../../utils/fetcher-array-urls";
+import { SITE_TITLE } from "../../../data/constants";
+import { getAllEpisodes, getDataFromArrayOfUrls, getEpisodeById } from "../../../lib/requests";
 import { handleDate } from "../../../utils/handle-date";
 
-export default function Episode({ episode, characters }) {
+type EpisodeRequest = {
+    air_date: string,
+    characters: CharacterResultParams[],
+    created: string,
+    url: string,
+    episode: string,
+    id: number,
+    name: string,
+}
+
+interface EpisodeProps {
+    episode: EpisodeRequest;
+    characters: CharacterResultParams[];
+}
+
+export default function Episode({ episode, characters } : EpisodeProps) {
     const metaTitle = `${episode.episode}, ${episode.name} - ${SITE_TITLE}`
     const title = `${episode.episode} - ${episode.name}`
     return (
@@ -41,21 +57,21 @@ export default function Episode({ episode, characters }) {
 }
 
 export async function getStaticPaths() {
-    const data = await fetchAPI(EPISODE_ENDPOINT);
+    const data = await getAllEpisodes();
     const paths = data.results.map(data => ({
         params: { id: data.id.toString() }
       }));
 
       return {
-        paths, fallback: true,
+        paths, fallback: false,
       }
 }
 
-export async function getStaticProps(context) {
+export async function getStaticProps(context: GetStaticPropsContext) {
     const id = context.params.id;
 
-    const episode = await fetchAPI(`${EPISODE_ENDPOINT}/${id}`);
-    const characters = await fetcherArrayUrls(episode.characters)
+    const episode = await getEpisodeById(id);
+    const characters = await getDataFromArrayOfUrls(episode?.characters);
     return {
         props: { episode, characters },
     }
