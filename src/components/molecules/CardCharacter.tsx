@@ -1,26 +1,26 @@
-import { EStatus, TCharacter } from "@/@types/character_entity";
-import PATH from "@/lib/services/axios_config/config/path";
 import Image from "next/image";
 import Link from "next/link";
+
+import PATH from "@/lib/services/axios_config/config/path";
+
+import { TCharacter } from "@/@types/character_entity";
 import CircleStatus from "../atoms/CircleStatus";
+import React from "react";
 
 type TCharacterCard = Pick<
   TCharacter,
   "id" | "name" | "image" | "status" | "species" | "gender"
 >;
 
-const CharacterCard = ({
-  id,
-  name,
-  image,
-  status,
-  species,
-  gender,
-}: TCharacterCard) => {
+const CharacterCard = (
+  { id, name, image, status, species, gender }: TCharacterCard,
+  ref: React.ForwardedRef<HTMLAnchorElement>
+) => {
   return (
     <Link
       href={`${PATH.character}/${id}`}
-      className="rounded-xl overflow-hidden shadow-lg"
+      className="rounded-xl overflow-hidden"
+      ref={ref}
     >
       <Image
         src={image}
@@ -45,4 +45,4 @@ const CharacterCard = ({
   );
 };
 
-export default CharacterCard;
+export default React.forwardRef(CharacterCard);

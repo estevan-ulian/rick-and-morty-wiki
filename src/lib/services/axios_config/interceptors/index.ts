@@ -1,11 +1,11 @@
-import errorInterceptor from "./error/error_interceptor.js";
-import requestInterceptor from "./request/request_interceptor.js";
-import responseInterceptor from "./response/response_interceptor.js";
+import errorInterceptor from "./error/error_interceptor";
+import requestInterceptor from "./request/request_interceptor";
+import responseInterceptor from "./response/response_interceptor";
 
-const interceptor = {
+const interceptors = {
   errorInterceptor,
   requestInterceptor,
   responseInterceptor,
 };
 
-export default interceptor;
+export default interceptors;
