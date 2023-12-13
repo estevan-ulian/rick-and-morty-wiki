@@ -6,11 +6,11 @@ const responseInterceptor = (response: AxiosResponse) => {
   const status = response.status;
   const data = JSON.stringify(response.data);
 
-  const consoleStyles = "color: #34ff30;";
+  const color = "color: #34ff30;";
 
-  console.log(`%c-- REQUEST: [${method}] | PATH: ${path}`, consoleStyles);
-  console.log(`%c-- RESPONSE: [${status}] | PATH: ${path}`, consoleStyles);
-  console.log(`%c-- DATA: [${data}] | PATH: ${path}`, consoleStyles);
+  console.log(`%c-- REQUEST: [${method}] | PATH: ${path}`, color);
+  console.log(`%c-- RESPONSE: [${status}] | PATH: ${path}`, color);
+  console.log(`%c-- DATA: [${data}] | PATH: ${path}`, color);
 
   return response;
 };

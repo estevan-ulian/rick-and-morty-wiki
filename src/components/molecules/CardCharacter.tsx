@@ -1,14 +1,12 @@
+import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-
-import PATH from "@/lib/services/axios_config/config/path";
-
-import { TCharacter } from "@/@types/character_entity";
+import ApiPaths from "@/lib/services/axios_config/config/api_paths";
+import CharacterEntity from "@/lib/@entities/character_entity";
 import CircleStatus from "../atoms/CircleStatus";
-import React from "react";
 
 type TCharacterCard = Pick<
-  TCharacter,
+  CharacterEntity,
   "id" | "name" | "image" | "status" | "species" | "gender"
 >;
 
@@ -18,7 +16,7 @@ const CharacterCard = (
 ) => {
   return (
     <Link
-      href={`${PATH.character}/${id}`}
+      href={`${ApiPaths.character}/${id}`}
       className="rounded-xl overflow-hidden"
       ref={ref}
     >

@@ -1,11 +1,11 @@
-enum STATUS_CODE {
-	OK = 200,
-	CREATED = 201,
-	UNAUTHORIZED = 401,
-	BAD_REQUEST = 400,
-	FORBIDDEN = 403,
-	NOT_FOUND = 404,
-	INTERNAL_SERVER_ERROR = 500,
+class StatusCode {
+  static OK = 200;
+  static CREATED = 201;
+  static UNAUTHORIZED = 401;
+  static BAD_REQUEST = 400;
+  static FORBIDDEN = 403;
+  static NOT_FOUND = 404;
+  static INTERNAL_SERVER_ERROR = 500;
 }
 
-export default STATUS_CODE;
+export default StatusCode;

@@ -1,17 +1,26 @@
-import { EStatus } from "@/@types/character_entity";
+import CharacterEntity from "@/lib/@entities/character_entity";
 
-const CircleStatus = ({ status }: { status: EStatus }) => {
+type CircleStatusProps = {
+  status: CharacterEntity["status"];
+};
+
+const CircleStatus = ({ status }: CircleStatusProps) => {
   const handleStatus = () => {
     switch (status) {
-      case EStatus.alive:
+      case "Vivo":
         return {
           color: "bg-green-400",
           title: "Vivo",
         };
-      case EStatus.dead:
+      case "Morto":
         return {
           color: "bg-red-400",
           title: "Morto",
+        };
+      case "Desconhecido":
+        return {
+          color: "bg-gray-400",
+          title: "Desconhecido",
         };
       default:
         return {

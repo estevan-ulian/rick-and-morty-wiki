@@ -1,4 +1,4 @@
-import getCharacter from "@/lib/services/http/get_character";
+import getCharacterById from "@/lib/services/http/characters/get_character_by_id";
 
 const Page = async ({
   params,
@@ -7,7 +7,7 @@ const Page = async ({
   params: { id: number };
   searchParams: { [key: string]: string | string[] | undefined };
 }) => {
-  const character = await getCharacter(params.id);
+  const character = await getCharacterById(params.id);
   return (
     <div>
       <h1>{character.name}</h1>
