@@ -16,7 +16,7 @@ class CharacterEntity {
     url: string;
   };
   image: string;
-  episode: string[];
+  episode: Array<string>;
   url: string;
   created: string;
 
@@ -88,6 +88,18 @@ class CharacterEntity {
         return "Desconhecido";
       default:
         return this.species;
+    }
+  }
+
+  get getOriginName(): string {
+    const originName = this.origin.name.toLowerCase();
+    switch (originName) {
+      case "":
+        return "Desconhecida";
+      case "unknown":
+        return "Desconhecida";
+      default:
+        return this.origin.name;
     }
   }
 }

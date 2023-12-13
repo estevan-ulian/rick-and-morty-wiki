@@ -19,11 +19,9 @@ const Homepage = ({ data }: IHomepage) => {
   return (
     <>
       <Header />
-      <main className="w-full bg-slate-100">
-        <section className="max-w-screen-xl mx-auto p-4">
-          <GridCharacters results={results} />
-        </section>
-      </main>
+      <section className="max-w-screen-xl mx-auto p-4">
+        <GridCharacters results={results} />
+      </section>
     </>
   );
 };

@@ -17,11 +17,6 @@ const CircleStatus = ({ status }: CircleStatusProps) => {
           color: "bg-red-400",
           title: "Morto",
         };
-      case "Desconhecido":
-        return {
-          color: "bg-gray-400",
-          title: "Desconhecido",
-        };
       default:
         return {
           color: "bg-gray-400",
